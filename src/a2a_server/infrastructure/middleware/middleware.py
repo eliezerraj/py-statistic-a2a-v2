@@ -23,6 +23,7 @@ from src.a2a_server.infrastructure.auth.token_verifier import JwtTokenVerifier
 from src.a2a_server.common.exceptions.auth_error import (
     InvalidAccessTokenError,
     MissingTokenError,
+    ForbiddenError,
 )
 
 #---------------------------------
@@ -54,7 +55,7 @@ def handle_auth_exception(exception: Exception, span, request_id: str, log_level
     status_code = 401
     if hasattr(exception, 'status_code') and exception.status_code:
         status_code = exception.status_code
-    
+
     # Get error message based on exception type
     if hasattr(exception, 'message'):
         log_msg = f"{type(exception).__name__}: {exception.message}"

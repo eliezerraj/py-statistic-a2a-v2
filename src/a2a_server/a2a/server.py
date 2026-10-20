@@ -7,6 +7,7 @@ from src.a2a_server.infrastructure.auth.cedar_verifier import CedarVerifier
 from src.a2a_server.common.exceptions.auth_error import (
     InvalidAccessTokenError,
     AuthorizationDeniedError,
+    ForbiddenError,
 )
 from src.a2a_server.common.exceptions.a2a_error import (
     A2ARequestError,
@@ -66,12 +67,19 @@ class A2AServer:
                 else:
                     logger.error("Unsupported message type: %s", envelope.message_type)
                     raise A2ARouterError(f"Unsupported message type: {envelope.message_type}")
-
+                
+            except ForbiddenError as e:
+                span.record_exception(e)
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+                logger.warning("Forbidden error in server router", exc_info=e)
+                raise
+                
             except A2ARouterError as e:
                 span.record_exception(e)
                 span.set_status(Status(StatusCode.ERROR, str(e)))
                 logger.error("Error A2ARouterError message", exc_info=e)
                 raise
+            
             except Exception as e:
                 span.record_exception(e)
                 span.set_status(Status(StatusCode.ERROR, str(e)))
