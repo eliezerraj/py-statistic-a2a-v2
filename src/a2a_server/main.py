@@ -42,6 +42,7 @@ from src.a2a_server.infrastructure.middleware.middleware import RequestContextMi
 from src.a2a_server.config.logger import REQUEST_ID_CTX
 from src.a2a_server.config.logger import setup_logger
 from src.a2a_server.config.settings import settings
+from src.a2a_server.infrastructure.oauth.protect_resource import PROTECT_RESOURCE_METADATA
 
 from opentelemetry import trace
 from opentelemetry.trace.status import Status, StatusCode
@@ -270,6 +271,12 @@ def agent_card():
         
         return agent
 
+@app.get("/.well-known/oauth-protected-resource")
+def protect_resource_metadata():
+    return JSONResponse(
+        content=PROTECT_RESOURCE_METADATA
+    )
+    
 @app.post("/a2a/message")
 def a2a_message(a2aRequest: A2ARequest, request: Request) -> A2AResponse:
     with tracer.start_as_current_span("main.a2a_message") as span:

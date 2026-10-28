@@ -23,7 +23,6 @@ from src.a2a_server.infrastructure.auth.token_verifier import JwtTokenVerifier
 from src.a2a_server.common.exceptions.auth_error import (
     InvalidAccessTokenError,
     MissingTokenError,
-    ForbiddenError,
 )
 
 #---------------------------------
@@ -33,24 +32,12 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 TRACING_EXCLUDED_PATHS = ["/metrics", "/health"]
-AUTHORIZATION_EXCLUDED_PATHS = ["/metrics", "/health", "/v1/info", "/.well-known/agent-card.json"]
+AUTHORIZATION_EXCLUDED_PATHS = ["/metrics", "/health", "/v1/info", "/.well-known/agent-card.json", "/.well-known/oauth-protected-resource"]
 
 #---------------------------------
 # Exception handler utility
 #---------------------------------
 def handle_auth_exception(exception: Exception, span, request_id: str, log_level: str = "warning") -> JSONResponse:
-    """
-    Unified exception handler for authentication errors.
-    
-    Args:
-        exception: The exception to handle (custom or generic)
-        span: OpenTelemetry span for setting attributes
-        request_id: Request ID for correlation
-        log_level: Log level to use ("warning" or "error")
-    
-    Returns:
-        JSONResponse with appropriate error response and status code
-    """
     # Determine status code and error response
     status_code = 401
     if hasattr(exception, 'status_code') and exception.status_code:
@@ -77,7 +64,8 @@ def handle_auth_exception(exception: Exception, span, request_id: str, log_level
     return JSONResponse(
         status_code=status_code,
         content=error_response,
-        headers={"x-request-id": request_id}
+        headers={"x-request-id": request_id,
+                  "WWW-Authenticate": f"Bearer resource_metadata={settings.A2A_PROTECTED_RESOURCE}/.well-known/oauth-protected-resource" }
     )
 
 class FilteringSpanExporter(SpanExporter):

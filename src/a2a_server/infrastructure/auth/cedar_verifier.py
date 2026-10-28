@@ -66,10 +66,6 @@ class CedarVerifier:
                 "context": context or {},
             }
 
-            print("==============================")
-            print("Request: %s", request)
-            print("==============================")
-
             entities = [
                 {
                     "uid": {
@@ -81,6 +77,7 @@ class CedarVerifier:
                     "attrs": {
                         "client_id": security.subject,
                         "scopes": list(security.scopes),
+                        "roles": list(security.roles),
                     },
                     "parents": [],
                 },
@@ -95,10 +92,7 @@ class CedarVerifier:
                     "parents": [],
                 },
             ]
-            print("==============================")
-            print("Entities: %s", entities)
-            print("==============================")
-            
+
             result = is_authorized(
                 request=request,
                 policies=self.policy_set,
@@ -106,6 +100,8 @@ class CedarVerifier:
             )
 
             print("==============================")
+            print("Request: %s", request)
+            print("Entities: %s", entities)
             print("Authorization result: %s", result.allowed)
             print("==============================")
 

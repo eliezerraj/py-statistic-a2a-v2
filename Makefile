@@ -15,7 +15,10 @@ export METRICS_PORT=8600
 export AUTHORIZATION_DRY_RUN=False
 export AUTHORIZATION_JWKS_URL=http://localhost:7100/v1/.well-known/jwks.json
 export AUTHORIZATION_ISSUER=go-authorizer-v2
-export AUTHORIZATION_AUDIENCE=go-ecommerce
+export AUTHORIZATION_AUDIENCE=py-statistics-a2a-v2
+
+export A2A_PROTECTED_RESOURCE=http://localhost:7600
+export AUTHORIZATION_SERVER=http://localhost:7100
 
 export LOG_LEVEL=INFO
 export OTEL_EXPORTER_OTLP_ENDPOINT=localhost:4317
