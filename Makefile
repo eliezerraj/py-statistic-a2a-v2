@@ -9,13 +9,15 @@ export PORT=7600
 export URL_AGENT=http://127.0.0.1:7600
 export SESSION_TIMEOUT=700
 
-export METRICS_HOST=0.0.0.0
+export METRICS_HOST=127.0.0.1
 export METRICS_PORT=8600
 
-export AUTHORIZATION_DRY_RUN=False
+export AUTHORIZATION_DRY_RUN=True
 export AUTHORIZATION_JWKS_URL=http://localhost:7100/v1/.well-known/jwks.json
 export AUTHORIZATION_ISSUER=go-authorizer-v2
 export AUTHORIZATION_AUDIENCE=py-statistics-a2a-v2
+
+export ALLOWED_HOSTS=localhost:*,127.0.0.1:*,py-mcp-inventory-v2:*
 
 export A2A_PROTECTED_RESOURCE=http://localhost:7600
 export AUTHORIZATION_SERVER=http://localhost:7100

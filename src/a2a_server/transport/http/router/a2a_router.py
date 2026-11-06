@@ -2,15 +2,10 @@ import logging
 import json
 
 from src.a2a_server.domain.usecase.calculation import compute_statistics, Statistic
-from src.a2a_server.infrastructure.auth.cedar_verifier import CedarVerifier
+from src.a2a_server.infrastructure.security.cedar_verifier import CedarVerifier
 
-from src.a2a_server.common.exceptions.auth_error import (
-    InvalidAccessTokenError,
-    AuthorizationDeniedError,
+from src.a2a_server.domain.exceptions import (
     ForbiddenError,
-)
-from src.a2a_server.common.exceptions.a2a_error import (
-    A2ARequestError,
     A2ARouterError,
 )
 

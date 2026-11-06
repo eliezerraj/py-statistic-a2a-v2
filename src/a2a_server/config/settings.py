@@ -15,7 +15,9 @@ class Settings:
         self.AUTHORIZATION_JWKS_URL = os.getenv("AUTHORIZATION_JWKS_URL")
         self.AUTHORIZATION_ISSUER = os.getenv("AUTHORIZATION_ISSUER")
         self.AUTHORIZATION_AUDIENCE = os.getenv("AUTHORIZATION_AUDIENCE")
-    
+        
+        self.ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
+   
         self.A2A_PROTECTED_RESOURCE = os.getenv("A2A_PROTECTED_RESOURCE")
         self.AUTHORIZATION_SERVER = os.getenv("AUTHORIZATION_SERVER")
     
