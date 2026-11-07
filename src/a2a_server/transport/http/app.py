@@ -28,7 +28,7 @@ from src.a2a_server.domain.model.message_model import A2ARequest, A2AEnvelope, A
 from src.a2a_server.transport.http.router.a2a_router import A2AServer
 from src.a2a_server.infrastructure.observability.tracer import setup_tracer
 from src.a2a_server.domain.provider.agent_card import AGENT_CARD as agent
-from src.a2a_server.infrastructure.middleware.middleware import RequestContextMiddleware
+from src.a2a_server.transport.http.middleware.middleware import RequestContextMiddleware
 from src.a2a_server.infrastructure.observability.logger import REQUEST_ID_CTX
 from src.a2a_server.infrastructure.observability.logger import setup_logger
 from src.a2a_server.config.settings import settings
@@ -137,14 +137,6 @@ def create_a2a_error_response(
 # Application Metadata
 # ---------------------------------
 a2AServer = A2AServer(settings)
-
-# -------------------------------------------------------------------
-# Transport security
-# -------------------------------------------------------------------
-#transport_security = TrustedHostMiddleware(
-#    allowed_hosts=settings.ALLOWED_HOSTS,
-#)
-
 
 def create_app():
     logger.info("Creating FastAPI app instance")
@@ -311,14 +303,12 @@ def create_app():
                 HTTP_REQUEST_DURATION_SECONDS.labels(method="POST",endpoint="/a2a/message").observe(time.time() - start)
                 IN_FLIGHT_REQUESTS.dec()
 
+    # ---------------------------------
+    # Middleware
+    # ---------------------------------
     app.add_middleware(
         TrustedHostMiddleware,
-        allowed_hosts=["py-statistic-a2a-v2",
-                    "localhost",
-                    "127.0.0.1",
-                    "prometheus",
-                    "host.docker.internal",
-                    "*.a2a-v2"]
+        allowed_hosts=settings.ALLOWED_HOSTS,
     )
     
     app.add_middleware(RequestContextMiddleware)

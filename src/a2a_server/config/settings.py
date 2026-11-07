@@ -16,7 +16,11 @@ class Settings:
         self.AUTHORIZATION_ISSUER = os.getenv("AUTHORIZATION_ISSUER")
         self.AUTHORIZATION_AUDIENCE = os.getenv("AUTHORIZATION_AUDIENCE")
         
-        self.ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
+        allowed_hosts = os.getenv("ALLOWED_HOSTS", "*")
+        self.ALLOWED_HOSTS = [
+            host.strip().removesuffix(":*")
+            for host in allowed_hosts.split(",")
+        ]
    
         self.A2A_PROTECTED_RESOURCE = os.getenv("A2A_PROTECTED_RESOURCE")
         self.AUTHORIZATION_SERVER = os.getenv("AUTHORIZATION_SERVER")
