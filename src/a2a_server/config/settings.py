@@ -15,8 +15,17 @@ class Settings:
         self.AUTHORIZATION_JWKS_URL = os.getenv("AUTHORIZATION_JWKS_URL")
         self.AUTHORIZATION_ISSUER = os.getenv("AUTHORIZATION_ISSUER")
         self.AUTHORIZATION_AUDIENCE = os.getenv("AUTHORIZATION_AUDIENCE")
+        
+        allowed_hosts = os.getenv("ALLOWED_HOSTS", "*")
+        self.ALLOWED_HOSTS = [
+            host.strip().removesuffix(":*")
+            for host in allowed_hosts.split(",")
+        ]
+   
+        self.A2A_PROTECTED_RESOURCE = os.getenv("A2A_PROTECTED_RESOURCE")
+        self.AUTHORIZATION_SERVER = os.getenv("AUTHORIZATION_SERVER")
     
-        self.METRICS_HOST = os.getenv("HOST")
+        self.METRICS_HOST = os.getenv("METRICS_HOST")
         self.METRICS_PORT = int(os.getenv("METRICS_PORT", 8601))
             
         self.LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()

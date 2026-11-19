@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: &app-name svc-py-statistic-a2a-v2
+  namespace: test-a
+  labels:
+    app: *app-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7600
+    targetPort: 7600
+    protocol: TCP
+    name: http
+  selector:
+    app: py-statistic-a2a-v2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: &app-name svc-py-statistic-a2a-v2-metrics
+  namespace: test-a
+  labels:
+    app: *app-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8600
+    targetPort: 8600
+    protocol: TCP
+    name: metrics
+  selector:
+    app: py-statistic-a2a-v2

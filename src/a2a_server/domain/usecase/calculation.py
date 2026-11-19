@@ -1,7 +1,7 @@
 import logging
 import numpy as np
 
-from src.a2a_server.domain.dto.model import Statistic
+from src.a2a_server.domain.model.model import Statistic
 
 from opentelemetry import trace
 
