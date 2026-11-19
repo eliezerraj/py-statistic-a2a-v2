@@ -1,8 +1,8 @@
 # Define environment variables
 
+export APP_NAME=py-statistic-a2a-v2
 export VERSION=0.1
 export ACCOUNT=local:localhost
-export APP_NAME=py-statistic-a2a-v2
 export HOST=127.0.0.1
 export PORT=7600
 
