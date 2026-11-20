@@ -25,8 +25,7 @@ class Settings:
         self.A2A_PROTECTED_RESOURCE = os.getenv("A2A_PROTECTED_RESOURCE")
         self.AUTHORIZATION_SERVER = os.getenv("AUTHORIZATION_SERVER")
     
-        self.METRICS_HOST = os.getenv("METRICS_HOST")
-        self.METRICS_PORT = int(os.getenv("METRICS_PORT", 8601))
+        self.METRICS_PORT = int(os.getenv("METRICS_PORT"))
             
         self.LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
         self.OTEL_EXPORTER_OTLP_ENDPOINT = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
